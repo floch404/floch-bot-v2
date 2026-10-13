@@ -1,0 +1,27 @@
+{
+  "name": "floch-bot",
+  "version": "2.0.0",
+  "description": "FLOCH BOT - website pairing WhatsApp + bot WhatsApp (Express + Baileys + SQLite)",
+  "private": true,
+  "main": "src/server.js",
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning src/server.js",
+    "dev": "node --disable-warning=ExperimentalWarning --watch src/server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test \"tests/*.test.js\"",
+    "check:jws": "node --disable-warning=ExperimentalWarning scripts/check-jws.js",
+    "report": "node --disable-warning=ExperimentalWarning scripts/command-report.js",
+    "smoke": "node scripts/smoke-deploy.js"
+  },
+  "dependencies": {
+    "@whiskeysockets/baileys": "6.7.24",
+    "express": "^4.21.0",
+    "ws": "^8.18.0"
+  },
+  "allowScripts": {
+    "@whiskeysockets/baileys@6.7.24": true,
+    "protobufjs@7.6.6": true
+  }
+}

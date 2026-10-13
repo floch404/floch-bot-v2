@@ -1,0 +1,16 @@
+# Dependensi & log
+node_modules/
+*.log
+npm-debug.log*
+
+# Rahasia dan data runtime (kredensial WhatsApp, database, secret). JANGAN pernah di-commit.
+/.env
+/.env.*
+!/.env.example
+/data/*
+!/data/.gitkeep
+*.pem
+*.key
+
+# Catatan: pola umum seperti "*session*" atau "*auth*" SENGAJA tidak dipakai karena akan ikut
+# mengabaikan kode sumber (mis. src/whatsapp/session-manager.js). Kredensial sesi hanya ada di /data/.

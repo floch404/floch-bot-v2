@@ -1,0 +1,28 @@
+# Blueprint Render.com (opsional). Disk persisten TIDAK tersedia di paket gratis; pakai paket berbayar terkecil.
+services:
+  - type: web
+    name: floch-bot
+    runtime: node
+    plan: starter
+    buildCommand: npm install --omit=dev
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22.13.0
+      - key: DATA_DIR
+        value: /var/data
+      - key: COOKIE_SECURE
+        value: "true"
+      - key: TRUST_PROXY
+        value: "1"
+      - key: OWNER_NUMBERS
+        sync: false
+      - key: PAIRING_ACCESS_CODE
+        sync: false
+      - key: PUBLIC_URL
+        sync: false
+    disk:
+      name: floch-data
+      mountPath: /var/data
+      sizeGB: 1

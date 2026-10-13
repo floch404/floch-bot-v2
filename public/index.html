@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="FLOCH BOT — WhatsApp Pairing System. Hubungkan WhatsApp ke bot dengan kode pairing.">
+  <title>FLOCH BOT — WhatsApp Pairing System</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23120405'/%3E%3Cpath d='M9 8h14v4H14v3h8v4h-8v5H9z' fill='%23ff2d3d'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <canvas id="particles" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <div id="intro" class="intro" role="dialog" aria-label="Pembukaan">
+    <div class="intro-inner">
+      <p class="intro-kicker">WhatsApp Pairing System</p>
+      <h1 class="intro-logo" aria-label="FLOCH BOT"><span>FLOCH</span><span>BOT</span></h1>
+      <div class="intro-bar" aria-hidden="true"><i></i></div>
+    </div>
+    <button id="intro-skip" class="btn btn-ghost intro-skip" type="button">Lewati</button>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="/" aria-label="FLOCH BOT">FLOCH<span>BOT</span></a>
+    <div id="status-pill" class="pill" data-state="disconnected" role="status" aria-live="polite">
+      <i class="dot" aria-hidden="true"></i><span id="status-text">Disconnected</span>
+    </div>
+  </header>
+
+  <main>
+    <section id="home" class="hero">
+      <p class="eyebrow">WhatsApp Pairing System</p>
+      <h2 class="hero-title">FLOCH <em>BOT</em></h2>
+      <p class="hero-desc">Hubungkan nomor WhatsApp kamu ke FLOCH BOT dengan kode pairing resmi — tanpa scan QR. Pengaturan bot lain dilakukan langsung lewat WhatsApp.</p>
+      <button id="open-connect" class="btn btn-primary btn-lg" type="button">CONNECT WHATSAPP</button>
+      <dl class="meta">
+        <div><dt>Owner</dt><dd id="meta-owner">floch</dd></div>
+        <div><dt>Developer</dt><dd id="meta-dev">floch</dd></div>
+        <div><dt>Layanan</dt><dd id="meta-service">Memeriksa…</dd></div>
+      </dl>
+    </section>
+
+    <section id="connect" class="panel" hidden aria-labelledby="connect-title">
+      <h3 id="connect-title" class="panel-title">Connect WhatsApp</h3>
+
+      <!-- Langkah 1: formulir nomor -->
+      <form id="form" class="step" novalidate autocomplete="off">
+        <label class="field" for="country">
+          <span>Kode negara</span>
+          <select id="country" name="country"></select>
+        </label>
+        <label class="field" for="number">
+          <span>Nomor WhatsApp</span>
+          <input id="number" name="number" type="tel" inputmode="numeric" placeholder="812 3456 7890" maxlength="20" aria-describedby="number-hint number-err" required>
+          <small id="number-hint" class="hint">Contoh: <b>+62 812 3456 7890</b> — tulis tanpa angka 0 di depan.</small>
+          <small id="number-err" class="err" role="alert" hidden></small>
+        </label>
+        <label id="access-wrap" class="field" for="access" hidden>
+          <span>Kode akses</span>
+          <input id="access" name="access" type="password" maxlength="64" autocomplete="off">
+          <small class="hint">Diminta oleh pemilik layanan ini.</small>
+        </label>
+        <button id="generate" class="btn btn-primary" type="submit"><span class="btn-label">GENERATE PAIRING CODE</span><i class="spin" aria-hidden="true"></i></button>
+      </form>
+
+      <!-- Langkah 2: menunggu kode / menampilkan kode -->
+      <div id="pairing" class="step" hidden>
+        <div id="wait" class="wait" hidden>
+          <i class="spin spin-lg" aria-hidden="true"></i>
+          <p id="wait-text">Menghubungi WhatsApp…</p>
+        </div>
+        <div id="code-box" hidden>
+          <p class="code-label">Kode pairing untuk <b id="code-phone"></b></p>
+          <output id="code" class="code" aria-live="polite"></output>
+          <div class="row">
+            <button id="copy" class="btn btn-primary" type="button">SALIN KODE</button>
+            <button id="regen" class="btn btn-ghost" type="button">GENERATE ULANG</button>
+          </div>
+          <p id="copy-manual" class="hint" hidden>Salin otomatis tidak tersedia. Tekan lama / blok kode di atas lalu salin manual.</p>
+          <ol class="howto">
+            <li>Buka <b>WhatsApp</b> di ponsel dengan nomor tersebut.</li>
+            <li>Ketuk <b>Perangkat tertaut</b> → <b>Tautkan perangkat</b>.</li>
+            <li>Pilih <b>Tautkan dengan nomor telepon</b>, lalu masukkan kode di atas.</li>
+          </ol>
+          <p class="hint">Kode berlaku singkat. Jika kedaluwarsa, tekan GENERATE ULANG.</p>
+        </div>
+        <div id="done" class="done" hidden>
+          <div class="check" aria-hidden="true"></div>
+          <p class="done-title">Terhubung</p>
+          <p id="done-number" class="hint"></p>
+          <p class="hint">Kirim <b>.menu</b> ke bot di WhatsApp untuk melihat daftar command.</p>
+        </div>
+        <div id="fail" class="fail" hidden>
+          <p class="fail-title">Terjadi masalah</p>
+          <p id="fail-text" class="hint"></p>
+          <button id="retry" class="btn btn-primary" type="button">COBA LAGI</button>
+        </div>
+        <button id="disconnect" class="btn btn-danger" type="button" hidden>DISCONNECT</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">Owner: floch · Developer: floch</footer>
+
+  <div id="toasts" class="toasts" aria-live="polite"></div>
+  <noscript><p class="noscript">Halaman ini membutuhkan JavaScript.</p></noscript>
+  <script src="/js/particles.js" defer></script>
+  <script src="/js/app.js" defer></script>
+</body>
+</html>
